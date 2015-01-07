@@ -23,7 +23,7 @@ class WordpressResponseSubscriber implements EventSubscriberInterface
 
     /**
      * @param string|array $httpHeaderCallback
-     * @param Wordpress $wordpress
+     * @param Wordpress    $wordpress
      */
     public function __construct($httpHeaderCallback, Wordpress $wordpress)
     {
@@ -50,9 +50,7 @@ class WordpressResponseSubscriber implements EventSubscriberInterface
         $wpHeaders = (array) call_user_func_array($callback, array($event->getRequest()->getUri()));
 
         foreach ($wpHeaders as $name => $value) {
-            // TODO add cache headers support
             if ($name == 'cache-control') {
-                //$response->setCache($value);
                 continue;
             }
 

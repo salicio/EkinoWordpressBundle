@@ -10,6 +10,10 @@
 
 namespace Ekino\WordpressBundle\Manager;
 
+use Ekino\WordpressBundle\Entity\Post;
+use Ekino\WordpressBundle\Entity\PostMeta;
+use Ekino\WordpressBundle\Repository\PostMetaRepository;
+
 /**
  * Class PostMetaManager
  *
@@ -20,9 +24,14 @@ namespace Ekino\WordpressBundle\Manager;
 class PostMetaManager extends BaseManager
 {
     /**
-     * @param int $postId
+     * @var PostMetaRepository
+     */
+    protected $repository;
+
+    /**
+     * @param int    $postId
      * @param string $metaName
-     * @param bool $fetchOneResult
+     * @param bool   $fetchOneResult
      *
      * @return array|\Ekino\WordpressBundle\Entity\PostMeta
      */
@@ -31,5 +40,15 @@ class PostMetaManager extends BaseManager
         $query = $this->repository->getPostMetaQuery($postId, $metaName);
 
         return $fetchOneResult ? $query->getOneOrNullResult() : $query->getResult();
+    }
+
+    /**
+     * @param Post $post
+     *
+     * @return PostMeta|null
+     */
+    public function getThumbnailPostId(Post $post)
+    {
+        return $this->getPostMeta($post->getId(), '_thumbnail_id', true);
     }
 }
